@@ -49,7 +49,7 @@ const Footer = (props) => {
         <Typography variant="body1" color="inherit" noWrap>
           <Link to="/" className={classes.link}>
             <span>
-            Lan Kwai Fund
+            LKF Capital
             </span>
           </Link>
         </Typography>

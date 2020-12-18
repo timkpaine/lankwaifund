@@ -135,7 +135,7 @@ class Topbar extends Component {
                 <>
                   <div className={classes.productLogo}>
                       <Typography>
-                      Lan Kwai Fund
+                      LKF Capital
                       </Typography>
                     </div>
                   <div className={classes.iconContainer}>
