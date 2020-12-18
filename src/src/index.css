@@ -1,0 +1,33 @@
+
+html {
+  height: 100%;
+}
+
+body {
+  /* position: absolute; */
+  width: 100%;
+  min-height: 100%;
+  box-sizing:border-box;
+  overflow-y: scroll;
+  overflow-x: none;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgba(39, 40, 39, 1);
+  color: white;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #546e7a;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
