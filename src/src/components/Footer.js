@@ -57,7 +57,7 @@ const Footer = (props) => {
           <span>© 2020</span>
         </Typography>
         <Typography variant="body1" color="inherit" noWrap>
-          <a href="https://nemoulous.com"><span>lankwai.fund</span></a>
+          <a href="https://lankwai.fund"><span>lankwai.fund</span></a>
         </Typography>
       </Grid>
     </div>
