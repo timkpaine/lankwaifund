@@ -10,7 +10,7 @@ import withStyles from '@material-ui/styles/withStyles';
 import React, { Component } from 'react';
 import * as THREE from "three";
 
-
+import {InfiniteGridHelper} from './utils/InfiniteGridHelper';
 import './utils/MeshLine';
 import Topbar from './Topbar';
 import Footer from './Footer';
@@ -30,6 +30,7 @@ const styles = (theme) => ({
   },
   gridItem: {
     zIndex: 100,
+    backgroundColor: "transparent",
   },
   background: {
     // background: 'url(bits.png) no-repeat',
@@ -49,19 +50,13 @@ const styles = (theme) => ({
   },
   paper: {
     minHeight: 20,
+    paddingTop: 400,
+    zIndex: 100,
     textAlign: 'left',
     color: theme.palette.primary.dark,
-    backgroundColor: theme.palette.secondary.main,
+    background: "transparent",
     padding: 10,
     borderBottom: "1px solid rgba(2, 204, 204, 1)"
-  },
-  paperDark: {
-    minHeight: 20,
-    textAlign: 'left',
-    color: theme.palette.primary.dark,
-    padding: 10,
-    backgroundColor: theme.palette.secondary.main,
-    borderBottom: "1px solid rgba(255, 82, 82, 1)"
   },
   title: {
     color: theme.palette.primary.light,
@@ -97,12 +92,7 @@ const styles = (theme) => ({
     marginBottom: 40,
     margin: 'auto',
     maxWidth: 1000,
-  },
-  boxFlex: {
-    display: "flex",
-    flexDirection: "row",
-    margin: 'auto',
-    maxWidth: 1000,
+    textAlign: 'center',
   },
   boxMain: {
     width: '100%',
@@ -110,25 +100,6 @@ const styles = (theme) => ({
     margin: 'auto',
     textAlign: 'center',
     maxWidth: 1000,
-  },
-  inlining: {
-    display: 'inline-block',
-    marginRight: 10,
-  },
-  buttonBar: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  noBorder: {
-    borderBottomStyle: 'hidden',
-  },
-  loadingState: {
-    opacity: 0.05,
-  },
-  loadingMessage: {
-    position: 'absolute',
-    top: '40%',
-    left: '40%',
   },
 });
 
@@ -141,7 +112,7 @@ class Main extends Component {
   componentDidMount() {
     if( process.env.JEST_WORKER_ID === undefined ) {
       // === THREE.JS CODE START ===
-      var renderer = new THREE.WebGLRenderer({antialias: true});
+      let renderer = new THREE.WebGLRenderer({antialias: true});
       renderer.setSize( window.innerWidth, window.innerHeight );
       renderer.setClearColor(0x131313);
       this.mount.appendChild( renderer.domElement );
@@ -152,12 +123,12 @@ class Main extends Component {
       window.addEventListener('resize', resizeCanvas);
 
       // randomly generate walks
-      var points1 = [];
-      var points2 = [];
-      var points3 = [];
-      var points4 = [];
-      var points5 = [];
-      var points6 = [];
+      let points1 = [];
+      let points2 = [];
+      let points3 = [];
+      let points4 = [];
+      let points5 = [];
+      let points6 = [];
 
       for(var i = 0; i<window.innerWidth; i++){
         if(i === 0){
@@ -186,12 +157,12 @@ class Main extends Component {
       // end generate random walks
 
       // camera
-      var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 2000);
-      camera.position.set( 0, 100, 800);
-      camera.lookAt( 0, 0, 0);
+      let camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 2000);
+      camera.position.set( -window.innerWidth/4, 100, 500);
+      camera.lookAt( -window.innerWidth/4, 0, 0);
       // end camera
       
-      var scene = new THREE.Scene();
+      let scene = new THREE.Scene();
 
       // Cube for reference
       // var cubeGeometry = new THREE.BoxGeometry(100, 100, 100);
@@ -201,12 +172,12 @@ class Main extends Component {
       // end cube
 
       // grid
-      var grid = new THREE.GridHelper( 2000, 100 );
+      let grid = new THREE.GridHelper(2200, 200);
       grid.position.y = -100;
       grid.position.z = -500;
       scene.add( grid );
       // fog to fade grid into "infinity"
-      scene.fog = new THREE.Fog( 0x272827, 1, 2000 );
+      scene.fog = new THREE.Fog(0x131313, 20, 1000);
       // end grid
 
       const vertexShader = `
@@ -245,9 +216,9 @@ class Main extends Component {
       }
       `;
 
-      var index = -(window.innerWidth/2);
+      let index = -(window.innerWidth/2);
 
-      var material = new THREE.ShaderMaterial({
+      let material = new THREE.ShaderMaterial({
         vertexShader,
         fragmentShader,
         transparent: true,
@@ -257,12 +228,12 @@ class Main extends Component {
       });
 
       // TODO Color effects
-      var colors1 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
-      var colors2 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
-      var colors3 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
-      var colors4 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
-      var colors5 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
-      var colors6 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
+      let colors2 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
+      let colors1 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
+      let colors4 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
+      let colors3 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
+      let colors6 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
+      let colors5 = new Float32Array(window.innerWidth * 4 * 2).fill(255);
       for(var i = 0; i < colors1.length; i = i + 4){
         colors1[i + 0] = 0;
 
@@ -288,31 +259,31 @@ class Main extends Component {
       }
      
       // load line geometries
-      var geometry1 = new THREE.BufferGeometry().setFromPoints( points1 );
+      let geometry1 = new THREE.BufferGeometry().setFromPoints( points1 );
       geometry1.setAttribute("color", new THREE.BufferAttribute(colors1, 4, true));
 
-      var geometry2 = new THREE.BufferGeometry().setFromPoints( points2 );
+      let geometry2 = new THREE.BufferGeometry().setFromPoints( points2 );
       geometry2.setAttribute("color", new THREE.BufferAttribute(colors2, 4, true));
 
-      var geometry3 = new THREE.BufferGeometry().setFromPoints( points3 );
+      let geometry3 = new THREE.BufferGeometry().setFromPoints( points3 );
       geometry3.setAttribute("color", new THREE.BufferAttribute(colors3, 4, true));
 
-      var geometry4 = new THREE.BufferGeometry().setFromPoints( points4 );
+      let geometry4 = new THREE.BufferGeometry().setFromPoints( points4 );
       geometry4.setAttribute("color", new THREE.BufferAttribute(colors4, 4, true));
 
-      var geometry5 = new THREE.BufferGeometry().setFromPoints( points5 );
+      let geometry5 = new THREE.BufferGeometry().setFromPoints( points5 );
       geometry5.setAttribute("color", new THREE.BufferAttribute(colors5, 4, true));
 
-      var geometry6 = new THREE.BufferGeometry().setFromPoints( points6 );
+      let geometry6 = new THREE.BufferGeometry().setFromPoints( points6 );
       geometry6.setAttribute("color", new THREE.BufferAttribute(colors6, 4, true));
 
       // construct segments
-      var line1 = new THREE.LineSegments(geometry1, material);
-      var line2 = new THREE.LineSegments(geometry2, material);
-      var line3 = new THREE.LineSegments(geometry3, material);
-      var line4 = new THREE.LineSegments(geometry4, material);
-      var line5 = new THREE.LineSegments(geometry5, material);
-      var line6 = new THREE.LineSegments(geometry6, material);
+      let line1 = new THREE.LineSegments(geometry1, material);
+      let line2 = new THREE.LineSegments(geometry2, material);
+      let line3 = new THREE.LineSegments(geometry3, material);
+      let line4 = new THREE.LineSegments(geometry4, material);
+      let line5 = new THREE.LineSegments(geometry5, material);
+      let line6 = new THREE.LineSegments(geometry6, material);
 
       // add to scene
       scene.add( line1 );
@@ -324,13 +295,17 @@ class Main extends Component {
 
       // render
       renderer.render( scene, camera );
-      var animate = function () {
+      let animate = function () {
         requestAnimationFrame( animate );
-        if(index > (window.innerWidth/2)){
-          return;
-        }
         line1.material.uniforms.index.value = index;
-        index+=32;
+        index+=1;
+
+        if(index > -window.innerWidth/8 && index < window.innerWidth/3){
+          camera.translateX(.5);
+        } else if (index > window.innerWidth/4) {
+
+        }
+
         renderer.render( scene, camera );
       };
       animate();
@@ -356,6 +331,18 @@ class Main extends Component {
                   </Typography>
                   <Typography className={classes.mainSubtitle} variant="h3" gutterBottom>
                     Algorithmic Cryptocurrency Investments
+                  </Typography>
+                </div>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} className={classes.gridItem}>
+              <Paper className={classes.paper}>
+                <div className={classes.box}>
+                  <Typography variant="h4" className={classes.title} gutterBottom>
+                  Discretionary and Systematic Trading Strategies
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom color="primary">
+                  Investments are now closed.
                   </Typography>
                 </div>
               </Paper>
