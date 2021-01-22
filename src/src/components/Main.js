@@ -10,7 +10,6 @@ import withStyles from '@material-ui/styles/withStyles';
 import React, { Component } from 'react';
 import * as THREE from "three";
 
-import {InfiniteGridHelper} from './utils/InfiniteGridHelper';
 import './utils/MeshLine';
 import Topbar from './Topbar';
 import Footer from './Footer';
